@@ -1,0 +1,117 @@
+import {Dimensions} from 'react-native';
+import {initialWindowMetrics} from 'react-native-safe-area-context';
+
+const paymentDollar = 'usd';
+const paymentBubo = 'bubo';
+const paymentBitcoin = 'btc';
+
+const paymentMethods = [
+  {
+    id: 1,
+    kind: paymentBubo,
+    text: 'HCDX',
+    unit: 'BUBO',
+    icon: require('assets/icons/budbo_white.png'),
+  },
+  {
+    id: 2,
+    kind: paymentBitcoin,
+    text: '9999',
+    unit: 'BTC',
+    icon: require('assets/icons/bitcoin.png'),
+  },
+  {
+    id: 3,
+    kind: paymentDollar,
+    text: '4873',
+    unit: 'USD',
+    icon: require('assets/icons/mastercard.png'),
+  },
+];
+
+// Social
+const facebookLink = 'http://facebook.com/budboapp';
+const twitterLink = 'http://www.twitter.com/BudboApp';
+const instagramLink = 'http://www.instargram.com/BudboApp';
+const telegramLink = 'https://t.me/budboapp';
+const youtubeLink = 'https://www.youtube.com/channel/UCtsuovP49wY3tEyAFDmGq9Q';
+
+const screenWidth = Math.round(Dimensions.get('window').width);
+const screenHeight = Math.round(Dimensions.get('window').height);
+
+let screenSafeAreaTop = initialWindowMetrics.insets.top;
+let screenSafeAreaBottom = initialWindowMetrics.insets.bottom;
+
+export default {
+  baseApiUrl: 'http://api.budbo.io/',
+  // baseApiUrl: 'http://test-budbo-env.us-east-1.elasticbeanstalk.com/',
+  googleMapApiKey: 'AIzaSyBfbxwRCgu7q3iQJXtgYyu_qlDqIjzIXsw',
+  defaultPassword: '!QAZxsw2',
+
+  screenWidth,
+  screenHeight,
+
+  screenSafeAreaTop,
+  screenSafeAreaBottom,
+
+  pinCodeCellCount: 6,
+  pinCodeCellWidth: Math.round(screenWidth * 0.1),
+  pinCodeCellHeight: Math.round(screenWidth * 0.115),
+
+  // Social
+  socialLinks: [
+    {
+      name: 'Facebook',
+      link: facebookLink,
+    },
+    {
+      name: 'Twitter',
+      link: twitterLink,
+    },
+    {
+      name: 'Instagram',
+      link: instagramLink,
+    },
+    {
+      name: 'Telegram',
+      link: telegramLink,
+    },
+    {
+      name: 'Youtube',
+      link: youtubeLink,
+    },
+  ],
+
+  // Urls
+  defaultAvatar: 'https://laravelbudbo.s3.amazonaws.com/images/avatar-user.png',
+  maleAvatar: 'https://laravelbudbo.s3.amazonaws.com/images/male.png',
+  femaleAvatar: 'https://laravelbudbo.s3.amazonaws.com/images/female.png',
+  defaultChart: 'https://laravelbudbo.s3.amazonaws.com/images/chart.png',
+
+  // AsyncStorage
+  currentUser: 'budbo_auth',
+  currentAddress: 'budbo_current_address',
+  featuredRetailers: 'budbo_featured_retailers',
+  allRetailers: 'budbo_retailers',
+  nearby: 'budbo_nearby',
+
+  // Payment Method Types
+  paymentDollar,
+  paymentBubo,
+  paymentBitcoin,
+  paymentMethods,
+
+  paymentCurrencyUnit: {
+    [paymentDollar]: '$',
+    [paymentBubo]: 'BUBO',
+    [paymentBitcoin]: 'Bitcoin',
+  },
+
+  // Order Status
+  orderPending: 1,
+  orderApproved: 2,
+  orderBeingDelivered: 3,
+  orderDelivered: 4,
+
+  productVolumns: ['each', '1g', '1/4oz', '1/8oz'],
+};
