@@ -2,6 +2,8 @@ import {all} from 'redux-saga/effects';
 import {saga} from './sagas';
 // import editReducer from './editReducer';
 import cartReducer from './cartReducer';
+import confirmModalReducer from './confirmModalReducer';
+
 import orderReducer from './orderReducer';
 import homeReducer from './homeReducer';
 import authReducer from './authReducer';
@@ -16,6 +18,7 @@ export const rootReducer = combineReducers({
   auth: authReducer,
   // edit: editReducer,
   cart: cartReducer,
+  confirmModal: confirmModalReducer,
   order: orderReducer,
   home: homeReducer,
   puff: puffReducer,

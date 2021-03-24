@@ -18,9 +18,9 @@ import {wp, hp} from 'config/utils';
 
 import {setShowMatch} from 'budboRedux/actions/matchActions';
 
-import RoundedButton from 'components/common/RoundedButton';
 import MyDrawerItem from './MyDrawerItem';
 import ProgressBar from 'components/common/ProgressBar';
+import GradientButton from 'components/common/GradientButton';
 
 // const checkIcon = require('assets/icons/check.png');
 const homeIcon = require('assets/icons/home_inactive.png');
@@ -85,20 +85,22 @@ const DrawerContent = (props) => {
       <View style={styles.avatarContainer}>
         <FastImage
           style={styles.imageAvatar}
-          source={{uri: props.user.image || constants.defaultAvatar}}
+          source={{uri: props.user.image || constants.maleAvatar}}
         />
         <Text style={styles.textFullName}>
           {props.user.first_name} {props.user.last_name}
         </Text>
         <View style={styles.usernameContainer}>
           <Text style={styles.textUsername}>@{props.user.username}</Text>
-          {/* <Image style={styles.iconCheck} source={checkIcon} /> */}
         </View>
-        <RoundedButton
-          style={styles.profileButton}
-          title="Profile"
-          onPress={() => props.navigation.navigate('Profile')}
-        />
+        <View style={styles.profileButtonContainer}>
+          <GradientButton
+              style={styles.profileButton}
+              textStyle={styles.textProfile}
+              title="Edit Profile"
+              onPress={() => props.navigation.navigate('Profile')}
+            />     
+        </View>
       </View>
       <FlatList
         style={styles.drawItemContainer}
@@ -205,7 +207,16 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: fonts.sfProTextRegular,
   },
+  profileButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
   profileButton: {
-    width: 87.5,
+    width: 140,
+    height: 30,
+    borderRadius: 10,  
+  },
+  textProfile: {
+    fontSize: 16,
   },
 });

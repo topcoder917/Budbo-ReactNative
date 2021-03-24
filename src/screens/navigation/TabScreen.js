@@ -38,6 +38,7 @@ import Wallet from '../wallet/Wallet';
 import Order from '../order/Order';
 
 import CheckOutModal from 'components/common/CheckOutModal';
+
 import MatchModal from 'components/common/MatchModal';
 
 const activeHomeIcon = require('assets/icons/home.png');

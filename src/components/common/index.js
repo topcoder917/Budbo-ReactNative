@@ -1,5 +1,7 @@
 import CartItem from './CartItem';
 import CheckOutModal from './CheckOutModal';
+import ConfirmModal from './ConfirmModal';
+
 import Collapse from './Collapse';
 import GradientButton from './GradientButton';
 import GradientSlider from './GradientSlider';
@@ -23,6 +25,7 @@ import TextField from './TextField';
 export {
   CartItem,
   CheckOutModal,
+  ConfirmModal,
   Collapse,
   GradientButton,
   GradientSlider,

@@ -1,12 +1,12 @@
 import React from 'react';
-import {Text, StyleSheet, TouchableOpacity, ViewPropTypes} from 'react-native';
+import {Text, StyleSheet, TouchableOpacity, ViewPropTypes, Image} from 'react-native';
 import PropTypes from 'prop-types';
 import LinearGradient from 'react-native-linear-gradient';
 
 import colors from 'config/colors';
 import fonts from 'config/fonts';
 
-export default function GradientButton(props) {
+export default function GradientImageButton(props) {
   return (
     <TouchableOpacity
       style={[styles.buttonContainer, props.style]}
@@ -28,19 +28,19 @@ export default function GradientButton(props) {
         ]}
         start={{x: 1, y: 0}}
         end={{x: 0, y: 1}}>
-        <Text style={[styles.textTitle, props.textStyle]}>{props.title}</Text>
+        <Image style={[props.imageStyle]} source={props.btnImage} />
       </LinearGradient>
     </TouchableOpacity>
   );
 }
 
-GradientButton.defaultProps = {
+GradientImageButton.defaultProps = {
   style: {},
   textStyle: {},
   onPress: () => {},
 };
 
-GradientButton.propTypes = {
+GradientImageButton.propTypes = {
   style: ViewPropTypes.style,
   textStyle: Text.propTypes.style,
   title: PropTypes.string.isRequired,

@@ -10,7 +10,6 @@ import constants from 'config/constants';
 import fonts from 'config/fonts';
 
 import CartItem from 'components/common/CartItem';
-import GradientButton from 'components/common/GradientButton';
 
 import {showCart, removeProduct} from 'budboRedux/actions/cartActions';
 import { ScrollView } from 'react-native-gesture-handler';

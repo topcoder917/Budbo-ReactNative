@@ -189,8 +189,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   icon: {
-    width: 16,
-    height: 16,
+    width: 25,
+    height: 25,
     resizeMode: 'contain',
   },
   badgeContainer: {
