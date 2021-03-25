@@ -83,12 +83,14 @@ function CheckOutModal(props) {
             <Text style={styles.textTotalTile}>Total Amount</Text>
             <Text style={styles.textTotalAmount}>$112.20</Text>
           </View>   
-          <GradientButton
-            style={styles.checkoutButton}
-            textStyle={styles.textCheckout}
-            title="Check Out"
-            onPress={() => handleOpenCart()}
-          />               
+          <View style={[styles.chargeRowContainer, {borderTopWidth: 0}]}>
+            <GradientButton
+              style={styles.checkoutButton}
+              textStyle={styles.textCheckout}
+              title="Check Out"
+              onPress={() => handleOpenCart()}
+            />   
+          </View>            
         </View>
       </View>
     </Modal>
@@ -154,8 +156,8 @@ const styles = StyleSheet.create({
     paddingTop: 15,
   },
   checkoutButton: {
-    width: 140,
-    height: 22,
+    width: '100%',
+    height: 50,
     borderRadius: 12,
   },
   chargeContainer: {

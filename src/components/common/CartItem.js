@@ -26,7 +26,7 @@ export default function CartItem(props) {
           <TouchableOpacity
             style={styles.buttonContainer}
             activeOpacity={0.8}
-            onPress={() => props.onPress()}>
+            onPress={() => onRemove()}>
             <LinearGradient
               style={styles.buttonGradiendContainer}
               colors={[
