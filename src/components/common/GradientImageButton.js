@@ -7,6 +7,7 @@ import colors from 'config/colors';
 import fonts from 'config/fonts';
 
 export default function GradientImageButton(props) {
+  console.log(props);
   return (
     <TouchableOpacity
       style={[styles.buttonContainer, props.style]}

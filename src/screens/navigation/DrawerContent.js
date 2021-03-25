@@ -30,6 +30,7 @@ const matchIcon = require('assets/icons/match_inactive.png');
 const walletIcon = require('assets/icons/wallet_inactive.png');
 const tokenIcon = require('assets/icons/earn_tokens.png');
 const supportIcon = require('assets/icons/support.png');
+const checkIcon = require('assets/icons/check.png');
 
 const DrawerContent = (props) => {
   const menuItems = [
@@ -92,6 +93,7 @@ const DrawerContent = (props) => {
         </Text>
         <View style={styles.usernameContainer}>
           <Text style={styles.textUsername}>@{props.user.username}</Text>
+          <Image style={styles.iconCheck} source={checkIcon} />
         </View>
         <View style={styles.profileButtonContainer}>
           <GradientButton
@@ -158,6 +160,7 @@ const styles = StyleSheet.create({
   usernameContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 10,
     marginBottom: 31,
   },
   textUsername: {

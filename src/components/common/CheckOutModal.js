@@ -12,7 +12,8 @@ import fonts from 'config/fonts';
 import CartItem from 'components/common/CartItem';
 
 import {showCart, removeProduct} from 'budboRedux/actions/cartActions';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
+import GradientButton from 'components/common/GradientButton';
 
 function CheckOutModal(props) {
   const navigation = props.navigation;
@@ -56,15 +57,10 @@ function CheckOutModal(props) {
       <View style={styles.modalContentContainer}>
         <View style={styles.header}>
           <Text style={styles.textTitle}>Cart</Text>
-          {/* <GradientButton
-            style={styles.checkoutButton}
-            textStyle={styles.textCheckout}
-            title="Check Out"
-            onPress={() => handleOpenCart()}
-          /> */}
+
         </View>
         <ScrollView>
-          <View onStartShouldSetResponder={()=> true}>
+          <View onStartShouldSetResponder={() => true}>
             <FlatList
               contentContainerStyle={styles.listContentContainer}
               data={props.cartProducts}
@@ -74,6 +70,26 @@ function CheckOutModal(props) {
             />
           </View>
         </ScrollView>
+        <View style={styles.chargeContainer}>
+          <View style={styles.chargeRowContainer}>
+            <Text style={styles.textChargeTile}>Basket Charges</Text>
+            <Text style={styles.textChargeAmount}>$110.00</Text>
+          </View>
+          <View style={[styles.chargeRowContainer, {borderTopWidth: 0}]}>
+            <Text style={styles.textChargeTile}>Delivery Charges</Text>
+            <Text style={styles.textChargeAmount}>$2.20</Text>
+          </View>    
+          <View style={[styles.chargeRowContainer, {borderTopWidth: 0}]}>
+            <Text style={styles.textTotalTile}>Total Amount</Text>
+            <Text style={styles.textTotalAmount}>$112.20</Text>
+          </View>   
+          <GradientButton
+            style={styles.checkoutButton}
+            textStyle={styles.textCheckout}
+            title="Check Out"
+            onPress={() => handleOpenCart()}
+          />               
+        </View>
       </View>
     </Modal>
   );
@@ -107,7 +123,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(CheckOutModal);
 const styles = StyleSheet.create({
   modalContainer: {
     width: '100%',
-    height: 400,
+    height: 650,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     backgroundColor: colors.primaryBackgroundColor,
@@ -142,4 +158,34 @@ const styles = StyleSheet.create({
     height: 22,
     borderRadius: 12,
   },
+  chargeContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+
+  },
+  chargeRowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderTopWidth: 0.5,
+    borderTopColor: colors.soft,
+    paddingTop: 20,
+
+  },
+  textChargeTile: {
+    color: colors.greyWhite,
+    fontSize: 16
+  },
+  textChargeAmount: {
+    color: colors.greyWhite,
+    fontSize: 12
+  },
+  textTotalTile: {
+    color: colors.white,
+    fontSize: 16
+  },
+  textTotalAmount: {
+    color: colors.lightBlue,
+    fontSize: 20
+  }
 });

@@ -502,6 +502,7 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 20,
     marginTop: 12,
+    marginBottom: 10,
     fontFamily: fonts.sfProTextRegular,
   },
   textUsername: {
