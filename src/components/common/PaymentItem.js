@@ -42,8 +42,11 @@ export default function PaymentItem({
             width: style.width || styles.container.width,
             height: style.height || styles.container.height,
           },
-        ]}
-      />
+        ]}>
+          <View style={styles.subBackground}>
+
+          </View>
+      </LinearGradient>    
     );
   };
 
@@ -70,9 +73,9 @@ export default function PaymentItem({
       {renderBackground()}
       <View style={styles.leftContainer}>
         <Image style={styles.icon} source={item.icon} />
-        <Text style={styles.textLabel}>**** {item.text}</Text>
+        {/* <Text style={styles.textLabel}>**** {item.text}</Text> */}
       </View>
-      {renderEdit()}
+      {/* {renderEdit()} */}
     </TouchableOpacity>
   );
 }
@@ -96,13 +99,20 @@ PaymentItem.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-    width: 264,
-    height: 70,
+    width: 80,
+    height: 60,
     borderRadius: 6,
     flexDirection: 'row',
+    
     alignItems: 'center',
-    backgroundColor: colors.secondaryBackgroundColor,
+    backgroundColor: colors.itemBackgroundColor,
     marginRight: 16,
+  },
+  subBackground: {
+    width: 76,
+    height: 56,
+    backgroundColor: colors.itemBackgroundColor,
+    borderRadius: 6,
   },
   grandientBackground: {
     width: '100%',
@@ -114,12 +124,16 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   leftContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: 20,
+    justifyContent: 'center',
+    // paddingLeft: 20,
   },
   editButton: {
     padding: 10,

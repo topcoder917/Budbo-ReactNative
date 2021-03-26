@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   },
   textChargeTile: {
     color: colors.greyWhite,
-    fontSize: 16
+    fontSize: 15
   },
   textChargeAmount: {
     color: colors.greyWhite,
@@ -184,10 +184,11 @@ const styles = StyleSheet.create({
   },
   textTotalTile: {
     color: colors.white,
-    fontSize: 16
+    fontFamily: fonts.sfProTextBold,
+    fontSize: 15
   },
   textTotalAmount: {
-    color: colors.lightBlue,
+    color: colors.primary,
     fontSize: 20
   }
 });

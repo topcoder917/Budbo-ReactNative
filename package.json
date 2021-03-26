@@ -29,6 +29,7 @@
     "react": "16.13.1",
     "react-native": "0.63.2",
     "react-native-action-sheet": "^2.2.0",
+    "react-native-animated-segment-control": "^1.0.9",
     "react-native-code-push": "^6.4.0",
     "react-native-confirmation-code-field": "^6.2.0-beta.2",
     "react-native-customisable-switch": "^0.1.0",

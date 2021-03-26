@@ -125,7 +125,7 @@ export const convertPaymentPrice = (price, from, to, rates) => {
   return price * rate;
 };
 
-export const formatPrecision = (value, precision = 10) => {
+export const formatPrecision = (value, precision = 2) => {
   const precisionValue = value.toString().split('.')[1];
   if (precisionValue && precisionValue.length > precision) {
     value = value.toFixed(precision);

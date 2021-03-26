@@ -8,6 +8,7 @@ import {
   FlatList,
   TouchableOpacity,
   ScrollView,
+  Image,
   ImageBackground,
   Platform,
   TextInput,
@@ -29,11 +30,17 @@ import AddressItem from 'components/order/AddressItem';
 import RoundedButton from 'components/common/RoundedButton';
 import LoadingIndicator from 'components/common/LoadingIndicator';
 import PaymentItem from 'components/common/PaymentItem';
+import LinearGradient from 'react-native-linear-gradient';
 
 import {removeAllProduct} from 'budboRedux/actions/cartActions';
+import SegmentControl from 'react-native-animated-segment-control';
+import {color} from 'react-native-reanimated';
 
 const purchaseLoadingLottie = require('assets/lottie/purchase.json');
 const cardImage = require('assets/imgs/order/card.png');
+const editIcon = require('assets/icons/edit.png');
+
+const testAddressImage = require('assets/imgs/home/all_greens_dispensary.png');
 
 function CheckOut(props) {
   const navigation = props.navigation;
@@ -53,6 +60,7 @@ function CheckOut(props) {
   const [inputState, setInputState] = React.useState('');
   const [inputZip, setInputZip] = React.useState('');
   const [inputCountry, setInputCountry] = React.useState('');
+  const [customStyleIndex, setCustomStyleIndex] = React.useState(0);
   const [counts, setCounts] = React.useState(
     props.cartProducts.map((item) => {
       return {id: item.id, count: item.quantity};
@@ -63,7 +71,15 @@ function CheckOut(props) {
   const [currentPaymentMethod, setCurrentPaymentMethod] = React.useState(
     constants.paymentDollar,
   );
+  const [currentPaymentItem, setCurrentPaymentItem] = React.useState(
+    constants.paymentMethods[0],
+  );
   const [orderSubTotal, setOrderSubTotal] = React.useState({});
+
+  const handleCustomIndexSelect = (index) => {
+    // Tab selection for custom Tab Selection
+    setCustomStyleIndex(index);
+  };
 
   React.useEffect(() => {
     AsyncStorage.getItem(constants.currentAddress)
@@ -129,9 +145,12 @@ function CheckOut(props) {
     return (
       <PaymentItem
         item={item}
-        isActive={item.kind === currentPaymentMethod}
+        isActive={item.kind === currentPaymentItem.kind}
         isEditable={true}
-        onPress={() => setCurrentPaymentMethod(item.kind)}
+        onPress={() => {
+          setCurrentPaymentMethod(item.kind);
+          setCurrentPaymentItem(item);
+        }}
         onEdit={() => setCardDialog(true)}
       />
     );
@@ -336,22 +355,41 @@ function CheckOut(props) {
 
   const renderDeliveryAddress = () => (
     <>
-      <View style={styles.addressHeaderContainer}>
-        <Text style={styles.textSectionTitle}>{addressHeader}</Text>
-        <RoundedButton
-          style={styles.deliveryAddressButton}
-          textStyle={styles.textDeliveryAddress}
-          title={pickButtonTitle}
-          onPress={handlePickUp}
-        />
-        <TouchableOpacity
-          style={styles.addNewButton}
-          activeOpacity={0.8}
-          onPress={() => setAddressDialog(true)}>
-          <Text style={styles.textAddNew}>Add New</Text>
-        </TouchableOpacity>
+      <View style={styles.addressContainer}>
+        <View style={styles.addressHeaderContainer}>
+          <TouchableOpacity
+            style={styles.addNewButton}
+            activeOpacity={0.8}
+            onPress={() => setAddressDialog(true)}>
+            <Text style={styles.textAddNew}>Add New</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.addressItemContainer}>
+          <View style={styles.firstColumn}>
+            <Image style={styles.addressImage} source={testAddressImage} />
+            <View style={styles.addressInfoContainer}>
+              <Text style={styles.address}>Time: 30 Min</Text>
+              <Text style={styles.city}>To: 604 Brazos St</Text>
+            </View>
+          </View>
+          <View style={styles.secondColumn}>
+            <TouchableOpacity>
+              <Image
+                style={{width: 16, height: 16, marginBottom: 10}}
+                source={require('assets/icons/check.png')}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Image
+                style={{width: 18, height: 18}}
+                source={require('assets/icons/edit.png')}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
-      <FlatList
+
+      {/* <FlatList
         style={styles.addressContainer}
         contentContainerStyle={styles.addressContentContainer}
         showsHorizontalScrollIndicator={false}
@@ -359,7 +397,7 @@ function CheckOut(props) {
         horizontal={true}
         renderItem={renderAddressItem}
         keyExtractor={(item, index) => index.toString()}
-      />
+      /> */}
     </>
   );
 
@@ -380,6 +418,35 @@ function CheckOut(props) {
         renderItem={renderPaymentItem}
         keyExtractor={(item) => item.id}
       />
+      <View style={styles.seletedPaymentContainer}>
+        <LinearGradient
+          colors={[
+            colors.firstGradientColor,
+            colors.secondGradientColor,
+            colors.thirdGradientColor,
+          ]}
+          start={{x: 1, y: 0}}
+          end={{x: 0, y: 1}}
+          style={styles.paymentGradient}>
+          <View style={styles.firstGradientColumn}>
+            <Image
+              style={styles.paymentItemIcon}
+              source={currentPaymentItem.icon}
+            />
+            <Text style={styles.textSelectedPayment}>
+              **** {currentPaymentItem.unit}
+            </Text>
+          </View>
+          <View style={styles.secondGradientColumn}>
+            <TouchableOpacity
+              style={styles.editButton}
+              activeOpacity={0.8}
+              onEdit={() => setCardDialog(true)}>
+              <Image style={styles.imageEdit} source={editIcon} />
+            </TouchableOpacity>
+          </View>
+        </LinearGradient>
+      </View>
     </>
   );
 
@@ -387,7 +454,6 @@ function CheckOut(props) {
     if (!orderSubTotal.totals) {
       return null;
     }
-
     const basketCharge = orderSubTotal.totals[currentPaymentMethod];
 
     const deliveryDollar = 6.2858; // TODO: remove later
@@ -404,19 +470,19 @@ function CheckOut(props) {
         <View style={styles.chargeItem}>
           <Text style={styles.textAddNew}>Basket Charges</Text>
           <Text style={styles.textValue}>
-            {`${formatPrecision(basketCharge)} ${unit}`}
+            {`${unit} ${formatPrecision(basketCharge)}`}
           </Text>
         </View>
         <View style={styles.chargeItem}>
           <Text style={styles.textAddNew}>Delivery Charges</Text>
           <Text style={styles.textValue}>
-            {`${formatPrecision(deliveryCharge)} ${unit}`}
+            {`${unit} ${formatPrecision(deliveryCharge)}`}
           </Text>
         </View>
         <View style={[styles.chargeItem, styles.totalItem]}>
-          <Text style={styles.textTotalName}>Total Amount Payable</Text>
+          <Text style={styles.textTotalName}>Total Amount</Text>
           <Text style={styles.textTotalValue}>
-            {`${formatPrecision(total)} ${unit}`}
+            {`${unit} ${formatPrecision(total)}`}
           </Text>
         </View>
       </>
@@ -576,20 +642,31 @@ function CheckOut(props) {
         onLeftPress={() => navigation.pop()}
       />
       <Text style={styles.textTitle}>Check Out</Text>
-      <ScrollView style={styles.scrollContainer}>
-        <FlatList
-          style={styles.productsContainer}
-          data={props.cartProducts}
-          renderItem={renderCheckItem}
-          keyExtractor={(item, index) => index.toString()}
+      <View style={styles.segmentContainer}>
+        <SegmentControl
+          values={['Delivery', 'Pick up']}
+          selectedIndex={1}
+          style={styles.segmentContainerStyle}
+          segmentControlStyle={styles.segmentControlStyle}
+          activeSegmentStyle={styles.activeSegmentStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          unSelectedTextStyle={styles.unSelectedTextStyle}
+          onChange={handleCustomIndexSelect}
         />
+      </View>
+      {/* {customStyleIndex === 0 && (
+          <Text style={styles.tabContent}> Tab one</Text>
+        )}
+        {customStyleIndex === 1 && (
+          <Text style={styles.tabContent}> Tab two</Text>
+        )}   */}
+      <ScrollView style={styles.scrollContainer}>
         {renderDeliveryAddress()}
         {renderPaymentMethod()}
-        <View style={styles.line} />
         {renderCharges()}
         <View style={styles.placeOrderButtonContainer}>
           <GradientButton
-            title="Place Order"
+            title="Pay & Confirm"
             onPress={() => handleShowOrder()}
           />
         </View>
@@ -620,6 +697,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primaryBackgroundColor,
     paddingTop: 12,
   },
+  segmentContainer: {
+    alignItems: 'center',
+    backgroundColor: colors.primaryBackgroundColor,
+    paddingTop: 12,
+  },
   textTitle: {
     width: '100%',
     color: colors.soft,
@@ -638,16 +720,15 @@ const styles = StyleSheet.create({
   },
   textSectionTitle: {
     fontSize: 17,
-    fontFamily: fonts.sfProTextBold,
+    fontFamily: fonts.sfProTextLight,
     color: colors.soft,
     paddingHorizontal: 8,
   },
   addressHeaderContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    marginTop: 22,
+    justifyContent: 'flex-end',
+    marginTop: 10,
   },
   addNewButton: {
     paddingHorizontal: 8,
@@ -657,9 +738,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.sfProTextRegular,
     color: colors.greyWhite,
   },
-  addressContainer: {
-    marginTop: 14,
-  },
+
   addressContentContainer: {
     paddingLeft: 16,
   },
@@ -672,24 +751,19 @@ const styles = StyleSheet.create({
   },
   paymentMethodContainer: {
     marginTop: 16,
+    paddingHorizontal: 8,
   },
   paymentMethodContentContainer: {
-    paddingLeft: 16,
+    paddingHorizontal: 16,
   },
-  line: {
-    marginHorizontal: 24,
-    borderBottomColor: colors.greyWhite,
-    borderBottomWidth: 1,
-    marginTop: 32,
-    marginBottom: 18,
-  },
+
   chargeItem: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    marginTop: 6,
+    paddingHorizontal: 24,
+    paddingVertical: 10,
   },
   textValue: {
     fontSize: 12,
@@ -711,8 +785,9 @@ const styles = StyleSheet.create({
   },
   placeOrderButtonContainer: {
     paddingHorizontal: 24,
-    marginTop: 32,
+    marginTop: 24,
     marginBottom: 12,
+    borderRadius: 10
   },
   dialogContainer: {
     borderRadius: 24,
@@ -836,4 +911,104 @@ const styles = StyleSheet.create({
   textChangeOrder: {
     fontSize: 16,
   },
+  tabsContainerStyle: {
+    height: 50,
+    backgroundColor: 'transparent',
+  },
+
+  activeSegmentStyle: {
+    backgroundColor: 'transparent',
+    borderBottomColor: colors.white,
+    borderBottomWidth: 1,
+  },
+  segmentContainerStyle: {
+    padding: 0,
+    backgroundColor: 'transparent',
+    height: 50,
+  },
+  segmentControlStyle: {
+    backgroundColor: 'transparent',
+  },
+  selectedTextStyle: {
+    color: colors.lightPurple,
+    fontSize: 16,
+  },
+  unSelectedTextStyle: {
+    color: colors.soft,
+    fontSize: 16,
+  },
+  addressContainer: {
+    paddingHorizontal: 16,
+  },
+  addressItemContainer: {
+    marginTop: 14,
+    width: '100%',
+    height: 100,
+    backgroundColor: colors.itemBackgroundColor,
+    borderRadius: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+  },
+  firstColumn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  secondColumn: {},
+  addressImage: {
+    width: 64,
+    height: 64,
+  },
+  addressInfoContainer: {
+    paddingHorizontal: 16,
+  },
+  address: {
+    fontSize: 15,
+    fontFamily: fonts.sfProTextRegular,
+    color: colors.primary,
+    marginBottom: 10,
+  },
+  city: {
+    fontSize: 15,
+    fontFamily: fonts.sfProTextRegular,
+    color: colors.greyWhite,
+  },
+  seletedPaymentContainer: {
+    padding: 24,
+    height: 108,
+  },
+  firstGradientColumn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  paymentGradient: {
+    width: '100%',
+    height: 60,
+    borderRadius: 6,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 24,
+  },
+  paymentItemIcon: {
+    width: 28,
+    height: 28,
+    resizeMode: 'contain',
+  },
+  textSelectedPayment: {
+    marginLeft: 10,
+    fontSize: 16,
+    fontFamily: fonts.sfProTextLight,
+    color: colors.soft,
+    letterSpacing: 3,
+  },
+  imageEdit: {
+    width: 20,
+    height: 20,
+    marginRight: 8,
+    resizeMode: 'contain',
+  },
+
 });

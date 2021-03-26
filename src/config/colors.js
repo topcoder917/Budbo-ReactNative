@@ -23,6 +23,7 @@ export default {
   secondaryBackgroundColor: '#343D5E',
   tertiaryBackgroundColor: '#2F3652',
   headerTitleBack: '#1B2136',
+  itemBackgroundColor: '#1D263F',
 
   // Gradient
   firstGradientColor: '#FD5D9F',

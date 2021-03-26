@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.secondaryBackgroundColor,
     borderRadius: 6,
   },
+
   imageIcon: {
     width: 16,
     height: 16,
@@ -79,4 +80,5 @@ const styles = StyleSheet.create({
     fontFamily: fonts.sfProTextRegular,
     color: colors.greyWhite,
   },
+
 });

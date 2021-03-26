@@ -4,28 +4,37 @@ import {initialWindowMetrics} from 'react-native-safe-area-context';
 const paymentDollar = 'usd';
 const paymentBubo = 'bubo';
 const paymentBitcoin = 'btc';
+const paymentEthereum = 'eth';
+const paymentMatic = 'matic';
 
 const paymentMethods = [
   {
     id: 1,
     kind: paymentBubo,
-    text: 'HCDX',
-    unit: 'BUBO',
-    icon: require('assets/icons/budbo_white.png'),
+    text: 'BUBO',
+    unit: '4873',
+    icon: require('assets/icons/budbo_gold.png'),
   },
   {
     id: 2,
     kind: paymentBitcoin,
-    text: '9999',
+    text: 'BTC',
     unit: 'BTC',
     icon: require('assets/icons/bitcoin.png'),
   },
   {
     id: 3,
-    kind: paymentDollar,
-    text: '4873',
-    unit: 'USD',
-    icon: require('assets/icons/mastercard.png'),
+    kind: paymentEthereum,
+    text: 'ETH',
+    unit: 'ETH',
+    icon: require('assets/icons/ethereum.png'),
+  },  
+  {
+    id: 4,
+    kind: paymentMatic,
+    text: 'MATIC',
+    unit: 'MATIC',
+    icon: require('assets/icons/matic.png'),
   },
 ];
 
