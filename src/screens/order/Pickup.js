@@ -76,7 +76,6 @@ function Pickup(props) {
 
 
   React.useEffect(() => {
-    console.log("pickup--------------");
     AsyncStorage.getItem(constants.currentAddress)
       .then((value) => {
         if (value) {
@@ -102,39 +101,6 @@ function Pickup(props) {
     fetchSubTotal();
   }, []);
 
-  const renderCheckItem = ({item, index}) => {
-    const data = {
-      id: item.id,
-      index: index,
-      name: item.name,
-      category: item.category,
-      image: {uri: item.image},
-      volumn: constants.productVolumns[item.priceIndex],
-      price: item.prices[item.priceIndex],
-      quantity: item.quantity,
-    };
-    return (
-      <CheckItem
-        item={data}
-        onPress={() => {
-          // setSelectedId(item.id)
-          // navigation.navigate('ProductInfo');
-        }}
-        onChangeCount={(value) => handleCount(item.id, value)}
-      />
-    );
-  };
-
-  const renderAddressItem = ({item, index}) => {
-    return (
-      <AddressItem
-        item={item}
-        handleChecked={() => {
-          changeChecked(index);
-        }}
-      />
-    );
-  };
 
   const renderPaymentItem = ({item, index}) => {
     return (
@@ -149,17 +115,6 @@ function Pickup(props) {
         onEdit={() => setCardDialog(true)}
       />
     );
-  };
-
-  const handleCount = (id, value) => {
-    let newCounts = [...counts];
-
-    newCounts.forEach((item) => {
-      if (item.id === id) {
-        item.count = value;
-      }
-    });
-    setCounts(newCounts);
   };
 
   const addAddress = () => {
@@ -181,50 +136,6 @@ function Pickup(props) {
     setAddressData(addressData);
     setAddressDialog(false);
   };
-
-  const changeChecked = (index) => {
-    let newAddressData = addressData.map((item, i) => {
-      if (i === index) {
-        return {
-          address: item.address,
-          city: item.city,
-          state: item.state,
-          postal: item.postal,
-          country: item.country,
-          checked: true,
-        };
-      } else {
-        return {
-          address: item.address,
-          city: item.city,
-          state: item.state,
-          postal: item.postal,
-          country: item.country,
-          checked: false,
-        };
-      }
-    });
-    setAddressData(newAddressData);
-    setSelectedAddressIndex(index);
-    setDeliveryAddress(newAddressData[index]);
-  };
-
-  const handlePickUp = () => {
-    if (selectedAddressIndex || selectedAddressIndex === 0) {
-      let newAddressData = addressData.filter((item, index) => {
-        return index !== selectedAddressIndex;
-      });
-      // setDeliveryAddress(addressData[selectedAddressIndex]);
-      setAddressData(newAddressData);
-      setSelectedAddressIndex(null);
-      setAddressHeader('In-store pick up');
-      setPickButtonTitle('Deliver');
-      setPick(true);
-    } else {
-      showError('Please select Address.');
-    }
-  };
-
   const handleShowOrder = () => {
     if (!deliveryAddress) {
       showError('Please set Delivery Address.');
@@ -351,29 +262,15 @@ function Pickup(props) {
   const renderDeliveryAddress = () => (
     <>
       <View style={styles.addressContainer}>
-        <View style={styles.addressHeaderContainer}>
-          <TouchableOpacity
-            style={styles.addNewButton}
-            activeOpacity={0.8}
-            onPress={() => setAddressDialog(true)}>
-            <Text style={styles.textAddNew}>Add New</Text>
-          </TouchableOpacity>
-        </View>
         <View style={styles.addressItemContainer}>
           <View style={styles.firstColumn}>
             <Image style={styles.addressImage} source={testAddressImage} />
             <View style={styles.addressInfoContainer}>
               <Text style={styles.address}>Time: 30 Min</Text>
-              <Text style={styles.city}>To: 604 Brazos St</Text>
+              <Text style={styles.city}>Pick Up: Local Product</Text>
             </View>
           </View>
           <View style={styles.secondColumn}>
-            <TouchableOpacity>
-              <Image
-                style={{width: 16, height: 16, marginBottom: 10}}
-                source={require('assets/icons/check.png')}
-              />
-            </TouchableOpacity>
             <TouchableOpacity>
               <Image
                 style={{width: 18, height: 18}}
@@ -383,16 +280,6 @@ function Pickup(props) {
           </View>
         </View>
       </View>
-
-      {/* <FlatList
-        style={styles.addressContainer}
-        contentContainerStyle={styles.addressContentContainer}
-        showsHorizontalScrollIndicator={false}
-        data={addressData}
-        horizontal={true}
-        renderItem={renderAddressItem}
-        keyExtractor={(item, index) => index.toString()}
-      /> */}
     </>
   );
 

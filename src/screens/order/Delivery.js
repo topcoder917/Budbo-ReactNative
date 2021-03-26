@@ -41,7 +41,9 @@ const editIcon = require('assets/icons/edit.png');
 const testAddressImage = require('assets/imgs/home/all_greens_dispensary.png');
 
 function Delivery(props) {
+
   const navigation = props.navigation;
+  
   const [orderDialog, setOrderDialog] = React.useState(false);
   const [cardDialog, setCardDialog] = React.useState(false);
   const [addressDialog, setAddressDialog] = React.useState(false);
@@ -73,11 +75,6 @@ function Delivery(props) {
     constants.paymentMethods[0],
   );
   const [orderSubTotal, setOrderSubTotal] = React.useState({});
-
-  const handleCustomIndexSelect = (index) => {
-    // Tab selection for custom Tab Selection
-    setCustomStyleIndex(index);
-  };
 
   React.useEffect(() => {
     AsyncStorage.getItem(constants.currentAddress)
@@ -358,7 +355,7 @@ function Delivery(props) {
           <TouchableOpacity
             style={styles.addNewButton}
             activeOpacity={0.8}
-            onPress={() => setAddressDialog(true)}>
+            onPress={() => navigation.push('AddLocation')}>
             <Text style={styles.textAddNew}>Add New</Text>
           </TouchableOpacity>
         </View>

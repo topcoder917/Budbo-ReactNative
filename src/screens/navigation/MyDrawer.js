@@ -13,12 +13,13 @@ import TabScreen from './TabScreen';
 import EarnToken from '../token/EarnToken';
 import Profile from '../profile/Profile';
 import EditProfile from '../profile/EditProfile';
-// import OrderScreens from '../screens/OrderScreens';
 
 import Delivery from '../order/Delivery';
 import Pickup from '../order/Pickup';
 import Checkout from '../order/Checkout';
 import Order from '../order/Order';
+import AddLocation from '../order/AddLocation';
+
 import Styles from './Styles';
 
 // import Match from '../match/Match';
@@ -37,6 +38,7 @@ const OrderScreens = () => (
     // initialRouteName="Order"
     headerMode="none">
     <OrderStack.Screen name="Checkout" component={Checkout} />
+    <OrderStack.Screen name="AddLocation" component={AddLocation} />
     <OrderStack.Screen name="Order" component={Order} />
     <OrderStack.Screen name="Delivery" component={Delivery} />
     <OrderStack.Screen name="Pickup" component={Pickup} />
@@ -85,7 +87,7 @@ const DrawerScreens = ({animatedStyle}) => {
           name="OrderScreens"
           component={OrderScreens}
           options={{headerShown: false}}
-        />
+        />    
         <DrawerStack.Screen
           name="Profile"
           component={Profile}

@@ -2,17 +2,12 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {Text, StyleSheet, SafeAreaView} from 'react-native';
 import {connect} from 'react-redux';
-import ScrollableTabView, { DefaultTabBar} from 'react-native-scrollable-tab-view';
-
 import constants from 'config/constants';
 import colors from 'config/colors';
 import fonts from 'config/fonts';
 import HeaderBar from 'components/common/HeaderBar';
 
-import Delivery from './Delivery';
-import Pickup from './Pickup';
-
-function Checkout(props) {
+function AddLocation(props) {
   const navigation = props.navigation;
   useEffect(() => {});
   return (
@@ -23,18 +18,7 @@ function Checkout(props) {
         onLeftPress={() => navigation.pop()}
       />      
       <Text style={styles.texTitle}>Check Out</Text>
-      <ScrollableTabView
-        // ref={scrollTabRef}
-        style={styles.scrollableTabBarContainer}
-        tabBarUnderlineStyle={styles.tabBarUnderline}
-        tabBarTextStyle={styles.textTabBar}
-        tabBarActiveTextColor={colors.primary}
-        tabBarInactiveTextColor={colors.greyWhite}
-        initialPage={0}
-        renderTabBar={() => <DefaultTabBar style={styles.scrollableTabBar} />}>
-        <Delivery tabLabel="Delivery" navigation={navigation} />
-        <Pickup tabLabel="Pick up" />
-      </ScrollableTabView>
+
     </SafeAreaView>
   );
 }
@@ -47,7 +31,7 @@ const mapDispatchToProps = {
   //setOrders,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Checkout);
+export default connect(mapStateToProps, mapDispatchToProps)(AddLocation);
 
 const styles = StyleSheet.create({
   container: {
