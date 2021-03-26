@@ -19,6 +19,7 @@ import Pickup from '../order/Pickup';
 import Checkout from '../order/Checkout';
 import Order from '../order/Order';
 import AddLocation from '../order/AddLocation';
+import AddPayment from '../order/AddPayment';
 
 import Styles from './Styles';
 
@@ -39,6 +40,7 @@ const OrderScreens = () => (
     headerMode="none">
     <OrderStack.Screen name="Checkout" component={Checkout} />
     <OrderStack.Screen name="AddLocation" component={AddLocation} />
+    <OrderStack.Screen name="AddPayment" component={AddPayment} />
     <OrderStack.Screen name="Order" component={Order} />
     <OrderStack.Screen name="Delivery" component={Delivery} />
     <OrderStack.Screen name="Pickup" component={Pickup} />

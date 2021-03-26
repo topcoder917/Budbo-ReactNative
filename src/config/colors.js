@@ -37,4 +37,6 @@ export default {
   indicaColor: '#9782EF', // primary
   sativaColor: '#F5A623',
   hybridColor: '#87DA6E',
+
+  inputNameColor: '#D8D8D8'
 };

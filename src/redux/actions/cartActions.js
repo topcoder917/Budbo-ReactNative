@@ -29,3 +29,4 @@ export const setProducts = (cartProducts) => ({
   type: SET_PRODUCTS,
   payload: {cartProducts},
 });
+

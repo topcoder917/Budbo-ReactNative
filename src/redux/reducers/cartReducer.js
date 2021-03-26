@@ -36,6 +36,7 @@ const cartReducer = (state = initData, action) => {
       const {cartProducts} = action.payload;
       return {...state, cartProducts: cartProducts};
     }
+ 
     default:
       return state;
   }
