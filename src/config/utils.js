@@ -101,7 +101,7 @@ export const getOrderStatusColor = (status) => {
   switch (status) {
     case constants.orderPending:
     case constants.orderApproved:
-      return colors.lightBlue;
+      return colors.green;
     case constants.orderBeingDelivered:
       return colors.hybridColor;
     case constants.orderDelivered:

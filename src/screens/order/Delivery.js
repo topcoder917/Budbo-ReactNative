@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import Dialog, {DialogContent, SlideAnimation} from 'react-native-popup-dialog';
 import LottieView from 'lottie-react-native';
-import {connect} from 'react-redux';
+import {connect, useDispatch, useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import colors from 'config/colors';
@@ -32,6 +32,7 @@ import PaymentItem from 'components/common/PaymentItem';
 import LinearGradient from 'react-native-linear-gradient';
 
 import {removeAllProduct} from 'budboRedux/actions/cartActions';
+import {setAddedCard} from 'budboRedux/actions/orderActions';
 import SegmentControl from 'react-native-animated-segment-control';
 
 const purchaseLoadingLottie = require('assets/lottie/purchase.json');
@@ -41,9 +42,10 @@ const editIcon = require('assets/icons/edit.png');
 const testAddressImage = require('assets/imgs/home/all_greens_dispensary.png');
 
 function Delivery(props) {
-
   const navigation = props.navigation;
-  
+  const dispatch = useDispatch();
+  const {addedFlag} = useSelector((state) => state.order);
+
   const [orderDialog, setOrderDialog] = React.useState(false);
   const [cardDialog, setCardDialog] = React.useState(false);
   const [addressDialog, setAddressDialog] = React.useState(false);
@@ -80,6 +82,10 @@ function Delivery(props) {
     AsyncStorage.getItem(constants.currentAddress)
       .then((value) => {
         if (value) {
+          if (addedFlag) {
+            dispatch(setAddedCard(false));
+            setOrderDialog(true);
+          }
           const currentAddress = JSON.parse(value);
           const address = {
             address: currentAddress.address,
@@ -100,7 +106,14 @@ function Delivery(props) {
       });
 
     fetchSubTotal();
-  }, []);
+  }, [addedFlag]);
+
+  // useEffect(()=>{
+  //   console.log(addedFlag);
+  //   if(addedFlag) {
+  //     dispatch(setAddedCard(false))
+  //   }
+  // }, [addedFlag])
 
   const renderCheckItem = ({item, index}) => {
     const data = {
@@ -400,10 +413,15 @@ function Delivery(props) {
     <>
       <View style={styles.paymentHeaderContainer}>
         <Text style={styles.textSectionTitle}>Payment Method</Text>
-        <TouchableOpacity 
-          style={styles.addNewButton} 
-          activeOpacity={0.8} 
-          onPress={() => navigation.push('AddPayment', {subtotal:orderSubTotal})}>
+        <TouchableOpacity
+          style={styles.addNewButton}
+          activeOpacity={0.8}
+          onPress={() =>
+            navigation.push('AddPayment', {
+              subtotal: orderSubTotal,
+              currentPaymentMethod: currentPaymentMethod,
+            })
+          }>
           <Text style={styles.textAddNew}>Add New</Text>
         </TouchableOpacity>
       </View>
@@ -499,9 +517,8 @@ function Delivery(props) {
       actionsBordered>
       {!!deliveryAddress && (
         <DialogContent style={styles.orderDialogContent}>
-          <Text style={styles.textOrderTitle}>
-            Confirm your order and delivery to:
-          </Text>
+          <Text style={styles.textOrderTitle}>Confirm your order and</Text>
+          <Text style={styles.textOrderTitle}>delivery to:</Text>
           <Text style={styles.textOrderAddress1}>
             {deliveryAddress.address}
           </Text>
@@ -509,18 +526,18 @@ function Delivery(props) {
             {deliveryAddress.city}, {deliveryAddress.state}{' '}
             {deliveryAddress.postal}
           </Text>
+          <RoundedButton
+            style={styles.orderBackButton}
+            textStyle={styles.textChangeOrder}
+            title="Go Back"
+            onPress={() => setOrderDialog(false)}
+          />
           <GradientButton
             style={styles.orderDialogButtonContainer}
             textStyle={styles.textButton}
             title="Place Order"
             onPress={handlePlaceOrder}
-          />
-          <RoundedButton
-            style={styles.changeOrderButton}
-            textStyle={styles.textChangeOrder}
-            title="Change Order"
-            onPress={() => setOrderDialog(false)}
-          />
+          />          
         </DialogContent>
       )}
     </Dialog>
@@ -656,11 +673,11 @@ function Delivery(props) {
 const mapStateToProps = (state) => ({
   user: state.auth.user,
   cartProducts: state.cart.cartProducts,
+  addedCard: state.order.addedFlag,
 });
 
 const mapDispatchToProps = {
   removeAllProduct,
-  
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Delivery);
@@ -762,7 +779,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     marginTop: 24,
     marginBottom: 12,
-    borderRadius: 10
+    borderRadius: 10,
   },
   dialogContainer: {
     borderRadius: 24,
@@ -770,32 +787,32 @@ const styles = StyleSheet.create({
   orderDialogContent: {
     borderRadius: 24,
     backgroundColor: colors.primaryBackgroundColor,
-    paddingTop: 29,
-    paddingBottom: 33,
-    paddingLeft: 32,
-    paddingRight: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 40,
+    paddingBottom: 60,
+    paddingTop: 60,
   },
+
   textOrderTitle: {
-    fontFamily: fonts.sfProDisplayBold,
+    fontFamily: fonts.sfProTextRegular,
     fontSize: 20,
     color: colors.soft,
-    paddingLeft: 24,
   },
   textOrderAddress1: {
     fontFamily: fonts.sfProTextRegular,
     fontSize: 16,
     color: colors.primary,
-    paddingLeft: 24,
-    marginTop: 8,
+    marginTop: 20,
   },
   textOrderAddress2: {
     fontFamily: fonts.sfProTextRegular,
     fontSize: 16,
     color: colors.greyWhite,
-    paddingLeft: 24,
   },
   orderDialogButtonContainer: {
     marginTop: 16,
+    borderRadius: 12
   },
   textButton: {
     fontSize: 16,
@@ -879,9 +896,13 @@ const styles = StyleSheet.create({
   textDeliveryAddress: {
     fontSize: 10,
   },
-  changeOrderButton: {
+  orderBackButton: {
+    width: '100%',
     height: 56,
-    borderRadius: 28,
+    borderRadius: 12,
+    borderColor: colors.soft,
+    marginTop: 30,
+    
   },
   textChangeOrder: {
     fontSize: 16,
@@ -985,5 +1006,4 @@ const styles = StyleSheet.create({
     marginRight: 8,
     resizeMode: 'contain',
   },
-
 });

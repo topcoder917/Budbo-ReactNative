@@ -399,7 +399,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginHorizontal: 16,
     borderRadius: 6,
-    backgroundColor: colors.secondaryBackgroundColor,
+    backgroundColor: colors.itemBackgroundColor,
     shadowColor: colors.shadowColor,
     shadowOffset: {width: 0, height: 3},
     shadowOpacity: 0.7,

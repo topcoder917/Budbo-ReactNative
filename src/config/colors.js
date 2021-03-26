@@ -15,9 +15,8 @@ export default {
   blue: '#306FEE',
   darkBlue: '#2B7BB9',
   lightBlue: '#56A6FA',
-  mediumBlue: '#4A90E2',
   fireBrick: '#FF617C',
-
+  green: '#70FE58',
   // Background
   primaryBackgroundColor: '#252D4A',
   secondaryBackgroundColor: '#343D5E',

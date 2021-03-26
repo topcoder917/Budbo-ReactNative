@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect, useRef} from 'react';
 import {Text, StyleSheet, SafeAreaView, View, Image, TouchableOpacity} from 'react-native';
-import {connect} from 'react-redux';
+import {connect,useDispatch} from 'react-redux';
 import colors from 'config/colors';
 import constants from 'config/constants';
 import {formatPrecision, showError} from 'config/utils';
@@ -10,21 +10,22 @@ import fonts from 'config/fonts';
 import HeaderBar from 'components/common/HeaderBar';
 import {TextInput} from 'react-native-gesture-handler';
 import GradientButton from 'components/common/GradientButton';
+import {setAddedCard} from 'budboRedux/actions/orderActions';
 
 const cardImage = require('assets/icons/card.png');
 const mastercardImage = require('assets/icons/add_mastercard.png');
 const checkImage = require('assets/icons/check.png');
 
 function AddPayment(props) {
-
+  
   const navigation = props.navigation;
   const orderSubTotal = props.route.params.subtotal;
-  const [currentPaymentMethod, setCurrentPaymentMethod] = React.useState(
-    constants.paymentDollar,
-  );
+  const currentPaymentMethod = props.route.params.currentPaymentMethod;
+  
   useEffect(() => {});
 
-  const savelocation = () =>{
+  const addNewCard = () =>{
+    props.setAddedCard(true);
     navigation.pop();
   }
 
@@ -33,7 +34,6 @@ function AddPayment(props) {
       return null;
     }
     const basketCharge = orderSubTotal.totals[currentPaymentMethod];
-
     const deliveryDollar = 6.2858; // TODO: remove later
     const rate =
       orderSubTotal.totals[currentPaymentMethod] /
@@ -108,7 +108,7 @@ function AddPayment(props) {
         <View style={styles.addButtonContainer}>
           <GradientButton
             title="Add & Make Payment"
-            onPress={() => savelocation()}
+            onPress={() => addNewCard()}
           />
         </View>
       </View>
@@ -121,7 +121,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  //setOrders,
+  setAddedCard
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddPayment);

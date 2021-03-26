@@ -1,7 +1,8 @@
-import {SET_ORDERS} from '../actions/orderActions';
+import {SET_ORDERS, SET_ADDED_CARD} from '../actions/orderActions';
 
 const initData = {
   orders: [],
+  addedFlag: false
 };
 
 const orderReducer = (state = initData, action) => {
@@ -12,6 +13,10 @@ const orderReducer = (state = initData, action) => {
         ...state,
         orders: orders,
       };
+    }
+    case SET_ADDED_CARD: {
+      const {addedFlag} = action.payload;
+      return {...state, addedFlag: addedFlag};
     }
     default:
       return state;
