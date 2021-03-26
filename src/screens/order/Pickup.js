@@ -40,7 +40,7 @@ const editIcon = require('assets/icons/edit.png');
 
 const testAddressImage = require('assets/imgs/home/all_greens_dispensary.png');
 
-function Delivery(props) {
+function Pickup(props) {
   const navigation = props.navigation;
   const [orderDialog, setOrderDialog] = React.useState(false);
   const [cardDialog, setCardDialog] = React.useState(false);
@@ -74,12 +74,9 @@ function Delivery(props) {
   );
   const [orderSubTotal, setOrderSubTotal] = React.useState({});
 
-  const handleCustomIndexSelect = (index) => {
-    // Tab selection for custom Tab Selection
-    setCustomStyleIndex(index);
-  };
 
   React.useEffect(() => {
+    console.log("pickup--------------");
     AsyncStorage.getItem(constants.currentAddress)
       .then((value) => {
         if (value) {
@@ -662,7 +659,7 @@ const mapDispatchToProps = {
   removeAllProduct,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Delivery);
+export default connect(mapStateToProps, mapDispatchToProps)(Pickup);
 
 const styles = StyleSheet.create({
   container: {

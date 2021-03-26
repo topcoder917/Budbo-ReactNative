@@ -15,7 +15,9 @@ import Profile from '../profile/Profile';
 import EditProfile from '../profile/EditProfile';
 // import OrderScreens from '../screens/OrderScreens';
 
-import CheckOut from '../order/CheckOut';
+import Delivery from '../order/Delivery';
+import Pickup from '../order/Pickup';
+import Checkout from '../order/Checkout';
 import Order from '../order/Order';
 import Styles from './Styles';
 
@@ -34,8 +36,10 @@ const OrderScreens = () => (
   <OrderStack.Navigator
     // initialRouteName="Order"
     headerMode="none">
-    <OrderStack.Screen name="CheckOut" component={CheckOut} />
+    <OrderStack.Screen name="Checkout" component={Checkout} />
     <OrderStack.Screen name="Order" component={Order} />
+    <OrderStack.Screen name="Delivery" component={Delivery} />
+    <OrderStack.Screen name="Pickup" component={Pickup} />
   </OrderStack.Navigator>
 );
 
