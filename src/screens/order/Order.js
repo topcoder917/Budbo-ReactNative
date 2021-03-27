@@ -25,6 +25,7 @@ import {getOrderStatusText, getOrderStatusColor} from 'config/utils';
 import HeaderBar from 'components/common/HeaderBar';
 import CheckItem from 'components/order/CheckItem';
 import PaymentItem from 'components/common/PaymentItem';
+import LinearGradient from 'react-native-linear-gradient';
 
 const owlHeadIcon = require('assets/icons/owl_head.png');
 // const badboIcon = require('assets/icons/budbo_white.png');
@@ -127,6 +128,9 @@ function Order(props) {
           item.unit_selected_price,
       ),
       quantity: item.quantity,
+      retailer_address: item.retailer.address,
+      retailer_logo: {uri: item.retailer.logo},
+      delivery_address: item.deliveryAddress
     };
     return <CheckItem item={data} enabled={false} />;
   };
@@ -160,9 +164,16 @@ function Order(props) {
 
   const allProducts = [];
   currentOrders.map((order) => {
-    allProducts.push(...order.products);
+    order.products.map((orderproduct) => {
+      const retailer = props.retailers.find(
+        (item) => item.id === orderproduct.retailer_id,
+      );
+      orderproduct.retailer = retailer;
+      orderproduct.deliveryAddress = deliveryAddress.address;
+      allProducts.push(orderproduct);
+    });
+    
   });
-
   const renderRetailerItem = (retailer) => {
     return (
       <View style={styles.retailerInfoContainer}>
@@ -260,13 +271,27 @@ function Order(props) {
         </View>
         <View style={styles.sectionContainer}>
           <Text style={styles.textSectionTitle}>Payment Method</Text>
-          <PaymentItem
+          <LinearGradient
+            colors={[
+              colors.firstGradientColor,
+              colors.secondGradientColor,
+              colors.thirdGradientColor,
+            ]}
+            start={{x: 1, y: 0}}
+            end={{x: 0, y: 1}}
+            style={styles.paymentGradient}>
+            <Image style={styles.paymentItemIcon} source={constants.paymentMethods[currentOrders[0].payment_method - 1 || 0].icon} />
+            <Text style={styles.textSelectedPayment}>
+              **** {constants.paymentMethods[currentOrders[0].payment_method - 1 || 0].unit}
+            </Text>
+          </LinearGradient>
+          {/* <PaymentItem
             style={styles.paymentMethodContainer}
             item={
               constants.paymentMethods[currentOrders[0].payment_method - 1 || 0]
             }
             isActive
-          />
+          /> */}
         </View>
         <View style={styles.sectionContainer}>
           <TouchableOpacity
@@ -441,7 +466,7 @@ const styles = StyleSheet.create({
   textSectionTitle: {
     marginHorizontal: 8,
     fontSize: 17,
-    fontFamily: fonts.sfProTextBold,
+    fontFamily: fonts.sfProTextLight,
     color: colors.soft,
   },
   paymentMethodContainer: {
@@ -490,8 +515,8 @@ const styles = StyleSheet.create({
     top: 0,
   },
   topLine: {
-    height: 2,
-    backgroundColor: colors.lightPurple,
+    height: 1,
+    backgroundColor: colors.greyWhite,
     marginHorizontal: 8,
   },
   bottomLine: {
@@ -533,4 +558,26 @@ const styles = StyleSheet.create({
     fontFamily: fonts.sfProTextBold,
     color: colors.primary,
   },
+  paymentGradient: {
+    width: '100%',
+    height: 60,
+    borderRadius: 6,
+    flexDirection: 'row',
+    //justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 24,
+    marginTop: 10
+  },
+  paymentItemIcon: {
+    width: 28,
+    height: 28,
+    resizeMode: 'contain',
+  },
+  textSelectedPayment: {
+    marginLeft: 20,
+    fontSize: 16,
+    fontFamily: fonts.sfProTextLight,
+    color: colors.soft,
+    letterSpacing: 3,
+  },  
 });

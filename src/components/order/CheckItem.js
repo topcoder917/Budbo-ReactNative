@@ -61,6 +61,7 @@ function CheckItem(props) {
       </View>
     );
   };
+  console.log(item);
 
   return (
     <Swipeable enabled={props.enabled} renderRightActions={renderRightActions}>
@@ -88,6 +89,14 @@ function CheckItem(props) {
               item.price * count
             ).toFixed(2)}`}</Text>
           </View>
+          <View style={styles.rowContainer}>
+            <View style={styles.retailerLeftContainer}>
+              <FastImage style={styles.retailerLogo} source={item.retailer_logo} />
+              <Text style={styles.textPrice}>{item.retailer_address}</Text>
+            </View>
+            <Text style={[styles.textPrice, styles.textBudget]}>Time: 30 Min</Text>                  
+
+          </View>  
         </View>
         <View style={styles.coverContainer}>
           <FastImage style={styles.imageCover} source={item.image} />
@@ -150,7 +159,7 @@ const styles = StyleSheet.create({
     paddingLeft: 65,
     paddingRight: 16,
     borderRadius: 6,
-    backgroundColor: colors.secondaryBackgroundColor,
+    backgroundColor: colors.itemBackgroundColor,
   },
   textTitle: {
     fontSize: 15,
@@ -199,5 +208,15 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     resizeMode: 'contain',
+  },
+  retailerLeftContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  retailerLogo: {
+    width: 25,
+    height: 25,
+    resizeMode: 'contain',
+    marginRight: 10
   },
 });
