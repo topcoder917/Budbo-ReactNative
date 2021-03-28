@@ -32,7 +32,7 @@ const AuthScreens = () => (
     <AuthStack.Screen
       name="Onboarding"
       component={Onboarding}
-      options={{headerTransparent: true}}
+      options={{headerTransparent: true, headerShown: false}}
     />
     <AuthStack.Screen
       name="SignIn"

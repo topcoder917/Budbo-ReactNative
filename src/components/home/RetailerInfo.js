@@ -12,9 +12,9 @@ import colors from 'config/colors';
 const fullStarIcon = require('assets/icons/star_purple.png');
 const emptyStarIcon = require('assets/icons/star_white.png');
 const halfStarIcon = require('assets/icons/half_star.png');
-const locationIcon = require('assets/icons/location.png');
-const orderOutlineIcon = require('assets/icons/order.png');
-const shippingOutlineIcon = require('assets/icons/shipping.png');
+const locationIcon = require('assets/icons/location-order.png');
+const orderOutlineIcon = require('assets/icons/lock-order.png');
+const shippingOutlineIcon = require('assets/icons/shipping-order.png');
 
 const weekNames = {
   fri: 'Friday',
@@ -90,18 +90,21 @@ export default function RetailerInfo(props) {
           <Text style={styles.textAllReviews}>All Reviews</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.otherInfoContainer}>
-        <View style={styles.rowItemContainer}>
-          <Image style={styles.iconStatus} source={locationIcon} />
-          <Text style={styles.textStaus}>{retailerData.address}</Text>
-        </View>
-        <View style={styles.rowItemContainer}>
-          <Image style={styles.iconStatus} source={orderOutlineIcon} />
-          <Text style={styles.textStaus}>Order from $10</Text>
-        </View>
-        <View style={styles.rowItemContainer}>
-          <Image style={styles.iconStatus} source={shippingOutlineIcon} />
-          <Text style={styles.textStaus}>Free Shipping</Text>
+      <View>
+        <Text style={styles.textReview}>Great smoke, this puts me at ease every time. My new favorite to help me relax. My wife says it helps relief …all the pain in her back from an old injury. </Text>
+        <View style={styles.otherInfoContainer}>
+          <View style={styles.rowItemContainer}>
+            <Image style={styles.iconStatus} source={locationIcon} />
+            <Text style={styles.textStaus}>{retailerData.address}</Text>
+          </View>
+          <View style={styles.rowItemContainer}>
+            <Image style={styles.iconStatus} source={orderOutlineIcon} />
+            <Text style={styles.textStaus}>Order from $10</Text>
+          </View>
+          <View style={styles.rowItemContainer}>
+            <Image style={styles.iconStatus} source={shippingOutlineIcon} />
+            <Text style={styles.textStaus}>Free Shipping</Text>
+          </View>
         </View>
       </View>
       <Collapse title="Location and Contact" isOpen={true}>
@@ -167,7 +170,7 @@ const styles = StyleSheet.create({
     color: colors.greyWhite,
   },
   textAllReviews: {
-    color: colors.primary,
+    color: colors.soft,
     fontSize: 12,
     fontFamily: fonts.sfProTextRegular,
   },
@@ -207,5 +210,15 @@ const styles = StyleSheet.create({
   },
   reviewButton: {
     width: 104,
+    borderRadius: 6,
+    borderColor: colors.lightPurple
   },
+  textReview: {
+    fontSize: 14,
+    color: colors.soft,
+    letterSpacing: 0.5,
+    lineHeight: 20,
+    marginTop: 10,
+    marginBottom: 10
+  }
 });

@@ -85,9 +85,9 @@ function Onboarding(props) {
         <OnboardingContent {...onboardingData[1]} />
         <OnboardingContent {...onboardingData[2]} />
         <OnboardingContent {...onboardingData[3]} />
-        <OnboardingFinal navigation={navigation} />
+        {/* <OnboardingFinal navigation={navigation} /> */}
       </Swiper>
-      {renderButtons()}
+      {/* {renderButtons()} */}
     </View>
   );
 }
