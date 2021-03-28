@@ -4,7 +4,8 @@ import {connect} from 'react-redux';
 import Swiper from 'react-native-swiper';
 
 import OnboardingContent from './OnboardingContent';
- import OnboardingFinal from './OnboardingFinal';
+import OnboardingFinal from './OnboardingFinal';
+import SignUp from '../user/SignUp';
 
 import colors from 'config/colors';
 import constants from 'config/constants';
@@ -12,6 +13,9 @@ import fonts from 'config/fonts';
 
 import purpleImage from 'assets/icons/budbo_purple.png';
 import whiteImage from 'assets/icons/budbo_white.png';
+import AppIntroSlider from 'react-native-app-intro-slider';
+
+const backIcon = require('assets/icons/back.png');
 
 const onboardingData = [
   {
@@ -45,27 +49,50 @@ function Onboarding(props) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNext = () => {
-    if (currentIndex < onboardingData.length - 1) {
-      swiperRef.current.scrollBy(currentIndex + 1);
-      
-      return;
+    if(currentIndex === 3) {
+      navigation.navigate('SignUp');
+    } else {
+      swiperRef.current.scrollBy(1);
     }
-    navigation.navigate('SignUp');
   };
 
-  const renderButtons = () => {
+  handleBack = async() => {
+    if(currentIndex === 0) {
+      navigation.navigate('SignIn');
+    } else {
+      swiperRef.current.scrollBy(-1);
+    }
+  };
+
+  const renderRightButtons = () => {
     return (
       <TouchableOpacity
-        style={[styles.buttonContainer, {top: constants.screenSafeAreaTop}]}
+        style={[
+          styles.rightButtonContainer,
+          {top: constants.screenSafeAreaTop},
+        ]}
         activeOpacity={0.8}
         onPress={() => handleNext()}>
-        <Text style={styles.textNext}>
-          {currentIndex < onboardingData.length - 1 ? 'Next' : 'Get Started'}
-        </Text>
+        {currentIndex < onboardingData.length ? (
+          <Text style={styles.textNext}>
+            {currentIndex < onboardingData.length - 1 ? 'Next' : 'Get Started'}
+          </Text>
+        ) : null}
       </TouchableOpacity>
     );
   };
-
+  const renderLeftButtons = () => {
+    return (
+      <TouchableOpacity
+        style={[styles.leftButtonContainer, {top: constants.screenSafeAreaTop}]}
+        activeOpacity={0.8}
+        onPress={() => handleBack()}>
+        {currentIndex < onboardingData.length  ? (
+          <Image style={styles.iconBack} source={backIcon} />
+        ) : null}
+      </TouchableOpacity>
+    );
+  };
   let paginationStyle = {
     bottom: 10 + constants.screenSafeAreaBottom,
   };
@@ -75,7 +102,7 @@ function Onboarding(props) {
       <Swiper
         ref={swiperRef}
         loop={false}
-        index={0}
+        index={currentIndex}
         showsPagination={true}
         paginationStyle={paginationStyle}
         dot={<Image style={styles.dot} source={whiteImage} />}
@@ -84,10 +111,13 @@ function Onboarding(props) {
         <OnboardingContent {...onboardingData[0]} />
         <OnboardingContent {...onboardingData[1]} />
         <OnboardingContent {...onboardingData[2]} />
-        <OnboardingContent {...onboardingData[3]} />
+        <OnboardingContent {...onboardingData[3]} /> 
+        <SignUp navigation={navigation} />
+
         {/* <OnboardingFinal navigation={navigation} /> */}
       </Swiper>
-      {/* {renderButtons()} */}
+      {renderRightButtons()}
+      {renderLeftButtons()}
     </View>
   );
 }
@@ -116,15 +146,25 @@ const styles = StyleSheet.create({
     marginLeft: 3,
     marginRight: 3,
   },
-  buttonContainer: {
+  rightButtonContainer: {
     position: 'absolute',
     right: 0,
     paddingVertical: 5,
-    paddingHorizontal: 20,
+    paddingHorizontal: 32,
+  },
+  leftButtonContainer: {
+    position: 'absolute',
+    paddingVertical: 5,
+    paddingHorizontal: 32,
   },
   textNext: {
     fontSize: 20,
     color: colors.white,
     fontFamily: fonts.sfProTextLight,
+  },
+  iconBack: {
+    width: 20,
+    height: 20,
+    resizeMode: 'contain',
   },
 });

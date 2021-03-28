@@ -10,6 +10,7 @@ import {
   LoadingIndicator,
   TextField,
 } from 'components/common';
+import HeaderBar from 'components/common/HeaderBar';
 
 import {colors, constants, fonts} from 'config';
 import {hp, showError} from 'config/utils';
@@ -32,11 +33,14 @@ export default function SignUp({navigation}) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
+
     if (logoRef) {
       logoRef.current.play();
     }
   }, []);
-  
+
+
+
   const handleChangeUsername = (value) => {
     setUsername(value);
   };
@@ -131,6 +135,12 @@ export default function SignUp({navigation}) {
   return (
     <View style={styles.container}>
       <LoadingIndicator isLoading={isSubmitting} />
+      <HeaderBar
+          leftButton="back"
+          onLeftPress={() => navigation.pop()}
+          midButton='none'
+          rightButton="none"
+        />      
       <KeyboardAwareScrollView
         contentContainerStyle={styles.keyboardAvoidingContainer}
         viewIsInsideTabBar={true}
@@ -198,6 +208,7 @@ export default function SignUp({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 48,
     backgroundColor: colors.primaryBackgroundColor,
   },
   keyboardAvoidingContainer: {

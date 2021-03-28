@@ -42,9 +42,11 @@ const AuthScreens = () => (
     <AuthStack.Screen
       name="SignUp"
       component={SignUp}
-      options={{
-        title: 'Sign up to budbo.io',
-      }}
+      options={{headerShown: false}}
+
+      // options={{
+      //   title: 'Sign up to budbo.io',
+      // }}
     />
     <AuthStack.Screen
       name="VerifyAccount"
