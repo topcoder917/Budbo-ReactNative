@@ -38,7 +38,7 @@ export default function MyWallet(props) {
   return (
     <View style={styles.container}>
       <WalletCard />
-      <View style={styles.spaceLine} />
+      {/* <View style={styles.spaceLine} /> */}
       <FlatList
         contentContainerStyle={styles.listContentContainer}
         data={data || []}
@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   listContentContainer: {
+    marginTop: 20,
     marginBottom: 6,
   },
   textTitle: {

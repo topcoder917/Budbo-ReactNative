@@ -51,6 +51,12 @@ const screenHeight = Math.round(Dimensions.get('window').height);
 let screenSafeAreaTop = initialWindowMetrics.insets.top;
 let screenSafeAreaBottom = initialWindowMetrics.insets.bottom;
 
+const youtubeIcon = require('assets/icons/youtube.png');
+const facebookIcon = require('assets/icons/facebook.png');
+const twitterIcon = require('assets/icons/twitter.png');
+const instagramIcon = require('assets/icons/instagram.png');
+const telegramIcon = require('assets/icons/telegram.png');
+
 export default {
   baseApiUrl: 'http://api.budbo.io/',
   // baseApiUrl: 'http://test-budbo-env.us-east-1.elasticbeanstalk.com/',
@@ -70,25 +76,36 @@ export default {
   // Social
   socialLinks: [
     {
+      name: 'Youtube',
+      link: youtubeLink,
+      icon: youtubeIcon,
+      subscribed: true
+    },
+    {
       name: 'Facebook',
       link: facebookLink,
+      icon: facebookIcon,
+      subscribed: true
     },
     {
       name: 'Twitter',
       link: twitterLink,
+      icon: twitterIcon,
+      subscribed: false
     },
     {
       name: 'Instagram',
       link: instagramLink,
+      icon: instagramIcon,
+      subscribed: false
     },
     {
       name: 'Telegram',
       link: telegramLink,
-    },
-    {
-      name: 'Youtube',
-      link: youtubeLink,
-    },
+      icon: telegramIcon,
+      subscribed: true
+    }
+
   ],
 
   // Urls

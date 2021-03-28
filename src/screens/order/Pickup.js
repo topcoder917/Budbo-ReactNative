@@ -287,7 +287,13 @@ function Pickup(props) {
     <>
       <View style={styles.paymentHeaderContainer}>
         <Text style={styles.textSectionTitle}>Payment Method</Text>
-        <TouchableOpacity style={styles.addNewButton} activeOpacity={0.8}>
+        <TouchableOpacity style={styles.addNewButton} activeOpacity={0.8} 
+          onPress={() =>
+            navigation.push('AddPayment', {
+              subtotal: orderSubTotal,
+              currentPaymentMethod: currentPaymentMethod,
+            })
+          }>
           <Text style={styles.textAddNew}>Add New</Text>
         </TouchableOpacity>
       </View>

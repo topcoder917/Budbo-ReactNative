@@ -33,7 +33,7 @@ function Checkout(props) {
         initialPage={0}
         renderTabBar={() => <DefaultTabBar style={styles.scrollableTabBar} />}>
         <Delivery tabLabel="Delivery" navigation={navigation} />
-        <Pickup tabLabel="Pick up" />
+        <Pickup tabLabel="Pick up" navigation={navigation}/>
       </ScrollableTabView>
     </SafeAreaView>
   );

@@ -17,6 +17,7 @@ import HeaderCart from 'components/common/HeaderCart';
 import Exchange from './Exchange';
 import MyWallet from './MyWallet';
 import OrderHistory from './OrderHistory';
+import EarnToken from '../token/EarnToken';
 
 function Wallet(props) {
   const [isFetching, setIsFetching] = useState(false);
@@ -98,10 +99,15 @@ function Wallet(props) {
         <Exchange tabLabel="Exchange" />
         <MyWallet tabLabel="My Wallet" />
         <OrderHistory
-          tabLabel="Order History"
+          tabLabel="Order"
           navigation={props.navigation}
           isFetching={isFetching}
         />
+        <EarnToken 
+          tabLabel="Earn" 
+          navigation={props.navigation}
+          isSubTab={true}
+          />
       </ScrollableTabView>
     </SafeAreaView>
   );

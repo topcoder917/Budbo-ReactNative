@@ -51,7 +51,7 @@ export default function Exchange(props) {
   return (
     <ScrollView style={styles.container}>
       <ExchangeChart />
-      <View style={styles.spaceLine} />
+      {/* <View style={styles.spaceLine} /> */}
       <View style={styles.contentContainer}>
         <Text style={styles.textTitle}>Budbo Token(BUBO) Listings</Text>
         <FlatList
@@ -76,14 +76,16 @@ const styles = StyleSheet.create({
     marginVertical: 13,
     marginHorizontal: 16,
   },
-  contentContainer: {},
+  contentContainer: {
+    paddingVertical: 24
+  },
   listContentContainer: {
     marginBottom: 6,
   },
   textTitle: {
     fontSize: 17,
     color: colors.soft,
-    fontFamily: fonts.sfProTextBold,
+    fontFamily: fonts.sfProTextRegular,
     marginHorizontal: 24,
     marginBottom: 6,
   },

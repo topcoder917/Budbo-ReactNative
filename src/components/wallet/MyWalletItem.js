@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   container: {
     alignSelf: 'stretch',
     height: 96,
-    backgroundColor: colors.secondaryBackgroundColor,
+    backgroundColor: colors.itemBackgroundColor,
     borderRadius: 6,
     padding: 16,
     marginHorizontal: 24,
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 6,
-    backgroundColor: colors.secondaryBackgroundColor,
+    backgroundColor: colors.itemBackgroundColor,
     shadowColor: colors.shadowColor,
     shadowOffset: {width: 0, height: 3},
     shadowOpacity: 0.7,
@@ -88,14 +88,14 @@ const styles = StyleSheet.create({
   textTitle: {
     fontSize: 16,
     color: colors.soft,
-    fontFamily: fonts.sfProTextBold,
+    fontFamily: fonts.sfProTextRegular,
   },
   priceContainer: {
     justifyContent: 'flex-end',
   },
   textPrice: {
     fontSize: 12,
-    color: colors.soft,
+    color: colors.primary,
     fontFamily: fonts.sfProTextBold,
   },
 });

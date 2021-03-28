@@ -13,6 +13,7 @@ import {
 
 import RoundedButton from 'components/common/RoundedButton';
 import HeaderMenu from 'components/common/HeaderMenu';
+import GradientButton from 'components/common/GradientButton';
 
 import colors from 'config/colors';
 import constants from 'config/constants';
@@ -20,15 +21,20 @@ import fonts from 'config/fonts';
 import {openLink} from 'config/utils';
 
 const goldBudboIcon = require('assets/icons/budbo_gold.png');
+const linkIcon = require('assets/icons/link.png');
 const likeIcon = require('assets/icons/like.png');
+const checkIcon = require('assets/icons/check.png');
+
 const simpleUserIcon = require('assets/icons/user_gray.png');
 const infoIcon = require('assets/icons/info.png');
 
-export default function EarnToken({navigation}) {
+export default function EarnToken(props) {
   React.useEffect(() => {
     setNavigationBar();
   }, []);
-
+  const navigation = props.navigation;
+  const isSubTab = props.isSubTab;
+  console.log(isSubTab);
   const setNavigationBar = () => {
     navigation.setOptions({
       headerLeft: () => <HeaderMenu navigation={navigation} />,
@@ -42,39 +48,88 @@ export default function EarnToken({navigation}) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.contentContainer}>
-        <Text style={styles.textTitle}>Earn Tokens</Text>
         <ScrollView
           contentContainerStyle={styles.scrollViewContentContainer}
           showsVerticalScrollIndicator={false}>
-          <View style={styles.profileContainer}>
+          <View style={
+              isSubTab
+                ? [{paddingHorizontal: 12}]
+                : {paddingHorizontal: 24}
+            }>
+          <Text
+            style={
+              isSubTab
+                ? [styles.textTitle, {fontSize: 22}]
+                : styles.textTitle
+            }>
+            Earn Tokens
+          </Text>
+          <Text style={styles.textDescription}>
+            Be sure to follow Budbo and use your referral link to invite to
+            friends and start earning Budbo Tokens Today.
+          </Text>          
+          </View>  
+
+          <View
+            style={
+              isSubTab ? styles.inSubTabTokenContainer : styles.tokenContainer
+            }>
             <Image style={styles.iconLargeBudbo} source={goldBudboIcon} />
             <View>
               <Text style={styles.textBudboToken}>The Budbo Token</Text>
-              <Text style={styles.textBubo}>(BUBO)</Text>
-              <RoundedButton
+              <Text style={styles.textBubo}>Referral ID:</Text>
+              <View style={styles.siteLinkContainer}>
+                <Text style={styles.textLink}>
+                  https://budbo.io/refid=LukeP
+                </Text>
+                <Image style={styles.iconLink} source={linkIcon} />
+              </View>
+              <GradientButton
+                style={styles.inviteButton}
+                textStyle={styles.textInviteBtn}
+                title="Invite Friend via Text"
+                //onPress={() => openVerifycationModal(1)}
+              />
+              {/* <RoundedButton
                 style={styles.inviteButton}
                 title="Invite Friends via Email"
                 //   onPress={() => navigation.navigate('EditProfile')}
-              />
+              /> */}
             </View>
           </View>
           <Text style={styles.textSectionTitle}>Follow and Join</Text>
           <View style={styles.sectionContainer}>
-            {constants.socialLinks.map((social) => (
+            {constants.socialLinks.map((social, key) => (
               <TouchableOpacity
-                style={styles.sectionItem}
+                style={
+                  key == 0
+                    ? [styles.sectionItem, {borderTopWidth: 0}]
+                    : styles.sectionItem
+                }
                 activeOpacity={0.8}
                 onPress={() => handleOpenSocial(social.link)}>
-                <Text style={styles.textSectionItem}>{social.name}</Text>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Image style={styles.followIcon} source={social.icon} />
+                  <Text style={styles.textSectionItem}>{social.name}</Text>
+                </View>
+                {social.subscribed ? (
+                  <Image style={styles.subscribeIcon} source={checkIcon} />
+                ) : (
+                  <RoundedButton
+                    style={styles.subscribeButton}
+                    title="Subscribe"
+                    //   onPress={() => navigation.navigate('EditProfile')}
+                  />
+                )}
               </TouchableOpacity>
             ))}
           </View>
           <Text style={styles.textSectionTitle}>
-            Retweet the latest from @BudboApp
+            News Feed
           </Text>
           <View
             style={[styles.sectionContainer, styles.bottomSectionContainer]}>
-            <View style={styles.reweetTopContainer}>
+            {/* <View style={styles.reweetTopContainer}>
               <View style={styles.rowContainer}>
                 <Image style={styles.iconSmallBudbo} source={goldBudboIcon} />
                 <View style={styles.budboContainer}>
@@ -83,7 +138,7 @@ export default function EarnToken({navigation}) {
                 </View>
               </View>
               <RoundedButton style={styles.retweetButton} title="Retweet" />
-            </View>
+            </View> */}
             <Text style={styles.textDowloadBudboToday}>
               Download Budbo Today
             </Text>
@@ -105,6 +160,7 @@ export default function EarnToken({navigation}) {
               </View>
               <Image style={styles.iconInfo} source={infoIcon} />
             </View>
+            <RoundedButton style={styles.retweetButton} title="Retweet" />
           </View>
         </ScrollView>
       </View>
@@ -122,11 +178,18 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'ios' ? 0 : 12,
   },
   scrollViewContentContainer: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
     paddingBottom: 31,
   },
-  profileContainer: {
-    paddingHorizontal: 24,
+  tokenContainer: {
+    // paddingHorizontal: 12,
+    paddingTop: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  inSubTabTokenContainer: {
     paddingTop: 12,
     flexDirection: 'row',
     alignItems: 'center',
@@ -135,11 +198,17 @@ const styles = StyleSheet.create({
   },
   textTitle: {
     fontSize: 36,
-    fontFamily: fonts.sfProDisplayBold,
+    fontFamily: fonts.sfProTextRegular,
     color: colors.soft,
     marginTop: 19,
     marginBottom: 7,
-    paddingHorizontal: 48,
+    // paddingHorizontal: 24,
+  },
+  textDescription: {
+    fontSize: 14,
+    color: colors.greyWhite,
+    //paddingHorizontal: 24,
+    paddingVertical: 10,
   },
   iconLargeBudbo: {
     width: 147,
@@ -153,13 +222,25 @@ const styles = StyleSheet.create({
     color: colors.soft,
     fontSize: 20,
     marginTop: 12,
-    fontFamily: fonts.sfProDisplayBold,
+    fontFamily: fonts.sfProTextRegular,
   },
   textBubo: {
-    color: colors.greyWhite,
+    color: colors.soft,
     fontSize: 14,
     fontFamily: fonts.sfProTextRegular,
-    marginBottom: 31,
+    marginTop: 10,
+  },
+  textLink: {
+    color: colors.soft,
+    fontSize: 14,
+    fontFamily: fonts.sfProTextRegular,
+    marginRight: 10,
+  },
+  siteLinkContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 10,
   },
   checkIcon: {
     width: 15,
@@ -167,17 +248,17 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   textSectionTitle: {
-    fontSize: 17,
-    fontFamily: fonts.sfProTextBold,
+    fontSize: 16,
+    fontFamily: fonts.sfProTextRegular,
     color: colors.soft,
     marginTop: 32,
     marginBottom: 16,
     paddingLeft: 8,
   },
   sectionContainer: {
-    backgroundColor: colors.secondaryBackgroundColor,
+    backgroundColor: colors.itemBackgroundColor,
     paddingHorizontal: 16,
-    paddingVertical: 16,
+    paddingVertical: 12,
     borderRadius: 6,
   },
   sectionItem: {
@@ -185,15 +266,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingLeft: 6,
-    paddingTop: 26,
-    paddingBottom: 10,
-    borderBottomColor: colors.greyWhite,
-    borderBottomWidth: 1,
+    paddingTop: 20,
+    paddingBottom: 20,
+    borderTopColor: colors.greyWhite,
+    borderTopWidth: 1,
   },
   textSectionItem: {
     fontSize: 17,
     fontFamily: fonts.sfProTextRegular,
     color: colors.lightPurple,
+    marginLeft: 10,
   },
   bottomSectionContainer: {
     paddingHorizontal: 28,
@@ -235,11 +317,13 @@ const styles = StyleSheet.create({
     color: colors.darkBlue,
     fontSize: 14,
     fontFamily: fonts.sfProTextRegular,
+    marginTop: 5
   },
   textDate: {
     color: colors.soft,
     fontSize: 12,
     fontFamily: fonts.sfProTextRegular,
+    marginTop : 5
   },
   infoContainer: {
     flexDirection: 'row',
@@ -249,11 +333,26 @@ const styles = StyleSheet.create({
   infoLeftContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 8,
+    marginTop: 10,
   },
   iconLike: {
     width: 14,
     height: 14,
+  },
+  iconLink: {
+    width: 16,
+    height: 16,
+    resizeMode: 'contain',
+  },
+  followIcon: {
+    width: 25,
+    height: 25,
+    resizeMode: 'contain',
+  },
+  subscribeIcon: {
+    width: 20,
+    height: 20,
+    resizeMode: 'contain',
   },
   textLikes: {
     fontSize: 12,
@@ -277,11 +376,26 @@ const styles = StyleSheet.create({
     fontFamily: fonts.sfProTextRegular,
   },
   inviteButton: {
-    width: 144,
+    width: '80%',
+    height: 30,
+    borderRadius: 6,
+    marginTop: 10,
+  },
+  textInviteBtn: {
+    fontSize: 14,
+    fontFamily: fonts.sfProTextRegular,
+    color: colors.soft,
   },
   retweetButton: {
-    width: 54,
-    height: 24,
+    width: 65,
+    height: 30,
     borderRadius: 12,
+    marginTop: 10,
+    padding: 5
+  },
+  subscribeButton: {
+    width: 80,
+    height: 30,
+    borderColor: colors.lightPurple,
   },
 });
