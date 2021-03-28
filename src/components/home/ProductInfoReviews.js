@@ -14,7 +14,7 @@ import colors from 'config/colors';
 import fonts from 'config/fonts';
 import constants from 'config/constants';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-
+import Moment from 'moment';
 const screenWidth = Math.round(Dimensions.get('window').width);
 
 const Item = ({item, onPress, style}) => (
@@ -25,8 +25,8 @@ const Item = ({item, onPress, style}) => (
       paddingRight: 8,
       paddingTop: 12,
       paddingBottom: 12,
-      borderBottomColor: colors.greyWhite,
-      borderBottomWidth: 1,
+      backgroundColor: colors.itemBackgroundColor,
+      borderRadius: 12
     }}>
     <View
       style={{
@@ -116,7 +116,7 @@ export default function ProductInfoReviews(props) {
       image: item.image ? item.image : constants.defaultAvatar,
       firstname: item.user.first_name,
       lastname: item.user.last_name,
-      date: new Date(item.created_at).toLocaleDateString(),
+      date: Moment(item.created_at).format('MMM d, yyyy'),
       content: item.content,
     };
     return <Item item={data} onPress={() => {}} />;
@@ -144,7 +144,7 @@ export default function ProductInfoReviews(props) {
           </View>
         </View>
       </View>
-      {props.write && (
+      {/* {props.write && (
         <View style={{width: '100%', alignItems: 'center', marginTop: 30}}>
           <TouchableOpacity
             onPress={() => {
@@ -186,7 +186,7 @@ export default function ProductInfoReviews(props) {
           borderBottomWidth: 1,
           borderBottomColor: colors.greyWhite,
         }}
-      />
+      /> */}
       <FlatList
         style={styles.reviewsContainer}
         data={reviews}
@@ -202,8 +202,6 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
     paddingBottom: 9,
-    borderBottomColor: colors.greyWhite,
-    borderBottomWidth: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

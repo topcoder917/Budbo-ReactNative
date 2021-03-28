@@ -311,6 +311,25 @@ function ProductInfo(props) {
           )}
           <View
             style={{
+              marginTop: 10,
+              width: constants.screenWidth,
+              alignItems: 'center',
+            }}>
+            <RoundedButton
+              style={styles.addCartButton}
+              textStyle={styles.textAddCart}
+              title="Write a Review"
+              onPress={() => {
+                props.navigation.navigate('ProductReview', {
+                  productId: productId,
+                  productName: products[activeIndex].name,
+                  attributes: products[activeIndex].attributes,
+                });
+              }}
+            />
+            </View>          
+          <View
+            style={{
               width: constants.screenWidth,
               paddingLeft: 24,
               paddingRight: 24,

@@ -31,6 +31,7 @@ const emptyStarIcon = require('assets/icons/star_gray.png');
 const halfStarIcon = require('assets/icons/half_star.png');
 const purpleBudboIcon = require('assets/icons/budbo_purple.png');
 const checkIcon = require('assets/icons/check.png');
+const infoIcon = require('assets/icons/info.png');
 
 function ProductReview(props) {
   const navigation = props.navigation;
@@ -167,6 +168,12 @@ function ProductReview(props) {
           </View>
         </View>
         <View style={styles.buttonsContainer}>
+          <GradientButton
+            style={styles.submitButton}
+            textStyle={styles.textSubmit}
+            title="Submit"
+            onPress={() => handleSubmit()}
+          />
           <TouchableOpacity
             style={styles.scanButtonContainer}
             activeOpacity={0.8}
@@ -177,11 +184,10 @@ function ProductReview(props) {
             </View>
             <Image style={styles.iconCheck} source={checkIcon} />
           </TouchableOpacity>
-          <GradientButton
-            textStyle={styles.textSubmit}
-            title="Submit"
-            onPress={() => handleSubmit()}
-          />
+          <View style={styles.infoContainer}>
+            <Image style={styles.iconInfo} source={infoIcon} />
+            <Text style={{color: colors.lightPurple, fontSize: 14}}><Text style={{color: colors.primary, fontSize: 16}}>Scan UPC </Text>to verify your review and purchase and earn tokens</Text>
+          </View>
         </View>
       </ScrollView>
       {/* <ReviewCharacteristics
@@ -219,7 +225,7 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     paddingLeft: 7.5,
     paddingRight: 7.5,
-    backgroundColor: colors.secondaryBackgroundColor,
+    backgroundColor: colors.itemBackgroundColor,
     alignItems: 'center',
   },
   dateContainer: {
@@ -228,7 +234,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'flex-end',
     borderBottomColor: colors.greyWhite,
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
   },
   textDate: {
     fontSize: 12,
@@ -256,9 +262,9 @@ const styles = StyleSheet.create({
     marginTop: 25,
     paddingHorizontal: 16.5,
     borderTopColor: colors.greyWhite,
-    borderTopWidth: 1,
+    borderTopWidth: 0.5,
     borderBottomColor: colors.greyWhite,
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
   },
   textInput: {
     flex: 1,
@@ -268,18 +274,18 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
   },
   buttonsContainer: {
-    marginHorizontal: 24,
-    marginVertical: 30,
+    //marginHorizontal: 24,
+    marginVertical: 20,
   },
   scanButtonContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 8,
+    //paddingHorizontal: 8,
     paddingVertical: 9,
-    marginBottom: 28,
-    borderColor: colors.primary,
+    marginTop: 20,
+    borderColor: colors.lightPurple,
     borderWidth: 1,
-    borderRadius: 25,
+    borderRadius: 12,
   },
   textScanUpc: {
     fontSize: 16,
@@ -297,6 +303,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  submitButton: {
+    width: '100%',
+    height: 55,
+    borderRadius: 12
+  },
   textSubmit: {
     fontSize: 16,
   },
@@ -305,4 +316,16 @@ const styles = StyleSheet.create({
     height: 12,
     marginRight: 32,
   },
+  infoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+    paddingVertical: 16,
+  },
+  iconInfo: {
+    width: 15,
+    height: 15,
+    marginRight: 10,
+    marginTop: -10
+  }
 });
