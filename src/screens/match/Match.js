@@ -115,13 +115,13 @@ const styles = StyleSheet.create({
   scrollViewContainer: {
     flex: 1,
     paddingHorizontal: 16,
-    paddingBottom: 20,
+    // paddingBottom: 20,
   },
   sliderItemContainer: {
     height: 30,
     marginBottom: 20,
   },
   findButton: {
-    marginTop: 20,
+    marginTop: 10,
   },
 });

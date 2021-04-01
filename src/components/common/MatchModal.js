@@ -44,7 +44,9 @@ function MatchModal(props) {
   const contentHeight =
     constants.screenHeight -
     tabBarHeight -
-    constants.screenSafeAreaBottom ;
+    constants.screenSafeAreaBottom -
+    constants.screenSafeAreaTop - 64;
+
   const animatedShadowOpacity = Animated.interpolate(animatedCallbackNode, {
     inputRange: [0, 1],
     outputRange: [0.3, 0],
@@ -105,8 +107,8 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     backgroundColor: colors.primaryBackgroundColor,
-    paddingVertical: 48,
-    paddingHorizontal: 16,
+    paddingTop: 34,
+    paddingBottom: 24,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
   },

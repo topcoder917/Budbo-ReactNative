@@ -117,7 +117,7 @@ function Profile(props) {
                     name: 'SignIn',
                     params: {
                       hideSplash: true,
-                      hideLogo: true,
+                      hideSplash2: true,
                     },
                   },
                 ],

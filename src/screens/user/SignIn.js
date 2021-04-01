@@ -37,14 +37,16 @@ function SignIn(props) {
   if (route.params) {
     hideSplash = props.route.params.hideSplash;
   }
-  let hideSplash2 = false;
-
+  let hideSplash2 = true;
+  if (route.params) {
+    hideSplash2 = props.route.params.hideSplash2;
+  }
   const passwordRef = useRef(null);
   const logoRef = useRef(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isHideSplash] = useState(hideSplash);
-  const [isHideSplash2, setHideSplash2] = useState(true);
+  const [isHideSplash2, setHideSplash2] = useState(hideSplash2);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -52,6 +54,11 @@ function SignIn(props) {
     if (isHideSplash) {
       handleCompletedSplash();
     }
+    setHideSplash2(hideSplash2);
+    if (hideSplash2) {
+      handleCompletedSplash2();
+    }
+    
   }, []);
 
   const handleChangeUsername = (value) => {
