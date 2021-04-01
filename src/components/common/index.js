@@ -19,6 +19,8 @@ import ProgressBar from './ProgressBar';
 import RoundedButton from './RoundedButton';
 import SearchBar from './SearchBar';
 import Splash from './Splash';
+import Splash2 from './Splash2';
+
 import Switch from './Switch';
 import TextField from './TextField';
 
@@ -43,6 +45,7 @@ export {
   RoundedButton,
   SearchBar,
   Splash,
+  Splash2,
   Switch,
   TextField,
 };

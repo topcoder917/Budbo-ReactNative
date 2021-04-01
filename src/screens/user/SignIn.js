@@ -1,46 +1,51 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { connect } from 'react-redux';
-import { CommonActions } from '@react-navigation/native';
-import Amplify, { Auth } from 'aws-amplify';
+import React, {useState, useEffect, useRef} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, Animated} from 'react-native';
+import {connect} from 'react-redux';
+import {CommonActions} from '@react-navigation/native';
+import Amplify, {Auth} from 'aws-amplify';
 import AsyncStorage from '@react-native-community/async-storage';
 import LottieView from 'lottie-react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import {
   Splash,
+  Splash2,
   GradientButton,
   KeyboardAvoidingView,
   LoadingIndicator,
   TextField,
 } from 'components/common';
 
-import { awsconfig, colors, constants, fonts } from 'config';
-import { hp, showError } from 'config/utils';
+import {awsconfig, colors, constants, fonts} from 'config';
+import {hp, showError} from 'config/utils';
 
-import { setUser } from 'budboRedux/actions/authActions';
+import {setUser} from 'budboRedux/actions/authActions';
 
 const userIcon = require('assets/icons/user.png');
 const lockIcon = require('assets/icons/lock.png');
 
 const owlLottie = require('assets/lottie/owl_on_tree.json');
 
+
 Amplify.configure(awsconfig);
 
 function SignIn(props) {
-  const { navigation, route } = props;
+  const {navigation, route} = props;
 
   let hideSplash = false;
   if (route.params) {
     hideSplash = props.route.params.hideSplash;
   }
+  let hideSplash2 = false;
 
   const passwordRef = useRef(null);
   const logoRef = useRef(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isHideSplash] = useState(hideSplash);
+  const [isHideSplash2, setHideSplash2] = useState(true);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -95,7 +100,7 @@ function SignIn(props) {
                 navigation.dispatch(
                   CommonActions.reset({
                     index: 0,
-                    routes: [{ name: 'DrawerScreens' }],
+                    routes: [{name: 'DrawerScreens'}],
                   }),
                 );
               })
@@ -120,12 +125,14 @@ function SignIn(props) {
     navigation.navigate('Onboarding');
   };
 
-  const handleCompletedSplash = () => {
+  const handleCompletedSplash2 = () => {
     if (logoRef) {
       logoRef.current.play();
     }
   };
-
+  const handleCompletedSplash = () => {
+    setHideSplash2(false);
+  };
   const paddingBottom =
     styles.mainContainer.paddingBottom + constants.screenSafeAreaBottom;
 
@@ -135,18 +142,21 @@ function SignIn(props) {
         isHideSplash={isHideSplash}
         onCompleted={() => handleCompletedSplash()}
       />
+      <Splash2
+        isHideSplash={isHideSplash2}
+        onCompleted={() => handleCompletedSplash2()}
+      />      
       <LoadingIndicator isLoading={isSubmitting} />
 
       <KeyboardAwareScrollView
         contentContainerStyle={styles.keyboardAvoidingContainer}
         viewIsInsideTabBar={true}
-        extraHeight={500}
-      >
+        extraHeight={500}>
         <View style={styles.logoContainer}>
           <LottieView ref={logoRef} style={styles.lottieOwl} source={owlLottie} />
         </View>
 
-        <View style={[styles.mainContainer, { paddingBottom }]}>
+        <View style={[styles.mainContainer, {paddingBottom}]}>
           <TextField
             icon={userIcon}
             autoCapitalize="none"
@@ -253,4 +263,5 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: colors.gray,
   },
+
 });

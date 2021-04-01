@@ -110,6 +110,7 @@ function EditProfile(props) {
                     name: 'SignIn',
                     params: {
                       hideSplash: true,
+                      hideLogo: true,
                     },
                   },
                 ],
